@@ -1,0 +1,17 @@
+<sly data-sly-use.templates="core/wcm/components/commons/v1/templates.html"></sly>
+<sly data-sly-use.models="com.mysite.core.models.Practice2Model"/>
+<div class="practice2-component" data-sly-test="${models.veg || models.nonveg}">
+    <h3>Details</h3>
+    <p>Veg: ${models.veg}</p>
+    <p>Non-Veg: ${models.nonveg}</p>
+    <p>Resource: ${models.resource}</p>
+    <p>Resource Resolver: ${models.resourceResolver}</p>
+    <p>Request Method: ${models.slingHttpServletRequest.method}</p>
+    <p>Modified By:${models.modifiedBy}</p>
+    <p>Page Path: ${models.logComponentPath}</p>
+
+</div>
+
+
+<sly data-sly-call="${templates.placeholder @ isEmpty = !models.veg && !models.nonveg}" />
+
