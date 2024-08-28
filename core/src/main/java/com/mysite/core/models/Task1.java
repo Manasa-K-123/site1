@@ -56,7 +56,7 @@ public class Task1 {
 
     private String seaLevel;
 
-    private String grandLevel;
+    private String groundLevel;
 
     private String sunrise;
 
@@ -115,7 +115,7 @@ public class Task1 {
         pressure = main.get("pressure").getAsString();
         humidity = main.get("humidity").getAsString();
         seaLevel = main.get("sea_level").getAsString();
-        grandLevel = main.get("grnd_level").getAsString();
+        groundLevel = main.get("grnd_level").getAsString();
         sunrise = sys.get("sunrise").getAsString();
         sunset = sys.get("sunset").getAsString();
         speed = wind.get("speed").getAsString();
@@ -150,7 +150,7 @@ public class Task1 {
     }
 
     public String getGrandLevel() {
-        return grandLevel;
+        return groundLevel;
     }
 
     public String getSunrise() {

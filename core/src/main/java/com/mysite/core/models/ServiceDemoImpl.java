@@ -18,6 +18,7 @@ import java.util.List;
 public class ServiceDemoImpl implements ServiceDemo2 {
     private static final Logger LOG= LoggerFactory.getLogger(ServiceDemoImpl.class);
 
+
     @OSGiService
     DemoService demoService;
 

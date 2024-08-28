@@ -39,8 +39,11 @@ public class GeeksScheduler implements Runnable {
     protected void addScheduler(SchedulerConfiguration config) {
         ScheduleOptions scheduleOptions = scheduler.EXPR(config.cronExpression());
         scheduleOptions.name(String.valueOf(schedulerId));
-        //scheduleOptions.canRunConcurrently(true);
         scheduler.schedule(this, scheduleOptions);
+        //scheduleOptions.canRunConcurrently(true);
+        LOG.info("scheduler method");
+        ScheduleOptions scheduleOptions1 =scheduler.NOW();
+        scheduler.schedule(this, scheduleOptions1);
     }
 
     @Override

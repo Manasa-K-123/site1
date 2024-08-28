@@ -11,4 +11,8 @@ public @interface WeatherApiConfiguration {
     @AttributeDefinition(name = "API URL", description = "URL for the Weather API")
     String apiUrl() default "https://api.openweathermap.org/data/2.5/weather?zip=%s,in&appid=%s&units=imperial";
 
+    @AttributeDefinition(name = "API URL", description = "URL for the Weather API")
+    String apiUrl2() default "https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s&units=imperial";
+
+
 }

@@ -12,12 +12,15 @@ public class WeatherApiConfigService {
 
     private volatile String apiKey;
     private volatile String apiUrl;
+    private volatile String apiUrl2;
 
     @Activate
     @Modified
     protected void activate(WeatherApiConfiguration config) {
         this.apiKey = config.apiKey();
         this.apiUrl = config.apiUrl();
+        this.apiUrl2= config.apiUrl2();
+
     }
     public String getApiKey() {
         return apiKey;
@@ -25,5 +28,6 @@ public class WeatherApiConfigService {
     public String getApiUrl() {
         return apiUrl;
     }
+    public String getApiUrl2(){return  apiUrl2;}
 }
 

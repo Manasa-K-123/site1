@@ -1,24 +1,13 @@
 package com.mysite.core.models;
 
-
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import com.mysite.core.service.WeatherApiConfigService;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.slf4j.Logger;
@@ -26,69 +15,105 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
-@Model(adaptables = {Resource.class, SlingHttpServletRequest.class}, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
+@Model(adaptables = SlingHttpServletRequest.class, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
 public class WeatherMode {
 
-    private static final Logger Log = LoggerFactory.getLogger(WeatherMode.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeatherMode.class);
 
     @ValueMapValue
-    private int latitude;
+    private String image;
 
-    @ValueMapValue
-    private int longitude;
+    @OSGiService
+    private WeatherApiConfigService weatherApiConfigService;
 
-   private String icon;
+    @Self
+    private SlingHttpServletRequest request;
 
+    private String latitude;
+
+    private String longitude;
 
     private String temperature;
+    private String place;
+    private String icon;
+    private String iconDescription; // Added field for icon description
     private String humidity;
-    private String placeName;
-    private String description;
- String apiUrl ;
-//    "http://localhost:4502/bin/weatherdata?lat="+lat+"&lon="+longi;
 
     @PostConstruct
-    protected void init() throws IOException {
-        apiUrl ="http://localhost:4502/bin/weatherdata?lat="+latitude+"&lon="+longitude;
-        BasicCredentialsProvider crdpro = new BasicCredentialsProvider();
-        crdpro.setCredentials(AuthScope.ANY,new UsernamePasswordCredentials("admin","admin"));
-        CloseableHttpClient httpClient = HttpClients.custom().setDefaultCredentialsProvider(crdpro).build();
-        HttpGet get = new HttpGet(apiUrl);
-        Log.info("getHttpClient "+get);
-        HttpResponse get1 = httpClient.execute(get);
-        Log.info("Response"+get1);
-        HttpEntity h = get1.getEntity();
-        Log.info("response1"+h);
-        String s1 = EntityUtils.toString(h);
-        Log.info("hello"+s1);
-        JsonObject jsonObject = JsonParser.parseString(s1).getAsJsonObject();
-        Log.info("jsonObject "+jsonObject);
-                  temperature = jsonObject.get("temperature").getAsString();
-                    humidity = jsonObject.get("humidity").getAsString();
-                    placeName = jsonObject.get("placeName").getAsString();
-                    description = jsonObject.get("description").getAsString();
-                    icon=jsonObject.get("icon").getAsString();
+    protected void init() {
+        this.latitude = request.getParameter("latitude");
+        this.longitude = request.getParameter("longitude");
+
+        if (latitude != null && !latitude.isEmpty() && longitude != null && !longitude.isEmpty()) {
+            fetchWeatherData(latitude, longitude);
+        }
+    }
+
+    private void fetchWeatherData(String latitude, String longitude) {
+        String apiKey = weatherApiConfigService.getApiKey();
+        String apiUrl2 = String.format(weatherApiConfigService.getApiUrl2(), latitude, longitude, apiKey);
+
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpGet request = new HttpGet(apiUrl2);
+            try (CloseableHttpResponse response = httpClient.execute(request)) {
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    String result = EntityUtils.toString(entity);
+                    parseWeatherData(result);
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.error("Error fetching weather data", e);
+        }
+    }
+
+    private void parseWeatherData(String json) {
+        JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+        JsonObject main = jsonObject.getAsJsonObject("main");
+        JsonObject weather = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject();
+        this.temperature = main.get("temp").getAsString();
+        this.humidity = main.get("humidity").getAsString();
+        this.place = jsonObject.get("name").getAsString();
+        this.icon = weather.get("icon").getAsString();
+        this.iconDescription = weather.get("description").getAsString(); // Extracting the description
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public String getTemperature() {
         return temperature;
     }
 
-    public String getHumidity() {
-        return humidity;
-    }
-
-    public String getPlaceName() {
-        return placeName;
-    }
-
-    public String getDescription() {
-        return description;
+    public String getPlace() {
+        return place;
     }
 
     public String getIcon() {
         return icon;
     }
-}
 
+    public String getIconDescription() { // Getter for icon description
+        return iconDescription;
+    }
+
+    public String getHumidity() {
+        return humidity;
+    }
+}

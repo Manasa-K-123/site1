@@ -34,8 +34,8 @@ public class WeatherLat extends SlingAllMethodsServlet {
 
     @Override
     public void doGet(@NotNull SlingHttpServletRequest request, @NotNull SlingHttpServletResponse response) throws ServletException, IOException {
-        String latitude = request.getParameter("lat");
-        String longitude = request.getParameter("lon");
+        String latitude = request.getParameter("latitude");
+        String longitude = request.getParameter("longitude");
 
         if (latitude != null && longitude != null) {
             try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
