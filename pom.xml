@@ -79,7 +79,11 @@
             
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
             
+<<<<<<< HEAD
    <aem.sdk.api>2023.1.10675.20230113T110236Z-220900</aem.sdk.api>
+=======
+    <aem.sdk.api>2023.1.10675.20230113T110236Z-220900</aem.sdk.api>
+>>>>>>> f9f96e4 (Added Code)
             
     <aemanalyser.version>1.4.10</aemanalyser.version>
             

@@ -1,10 +1,19 @@
 package com.mysite.core.schedulers;
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> f9f96e4 (Added Code)
 import com.mysite.core.config.SchedulerConfiguration;
 import org.apache.sling.commons.scheduler.ScheduleOptions;
 import org.apache.sling.commons.scheduler.Scheduler;
 import org.osgi.service.component.annotations.*;
+<<<<<<< HEAD
 import org.osgi.service.metatype.annotations.Designate;
+=======
+        import org.osgi.service.metatype.annotations.Designate;
+>>>>>>> f9f96e4 (Added Code)
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

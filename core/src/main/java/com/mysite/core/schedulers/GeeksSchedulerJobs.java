@@ -1,8 +1,11 @@
 package com.mysite.core.schedulers;
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> f9f96e4 (Added Code)
 import com.mysite.core.config.SchedulerConfiguration;
 import org.apache.sling.commons.scheduler.Job;
 import org.apache.sling.commons.scheduler.JobContext;
@@ -76,4 +79,8 @@ public class GeeksSchedulerJobs implements Job {
         LOG.info("\n =======> COUNTRY {} : URL {} ",jobContext.getConfiguration().get("country"),
                 jobContext.getConfiguration().get("url"));
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> f9f96e4 (Added Code)

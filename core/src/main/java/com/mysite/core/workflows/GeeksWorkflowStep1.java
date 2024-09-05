@@ -1,10 +1,18 @@
 package com.mysite.core.workflows;
 
 
+<<<<<<< HEAD
 //import com.adobe.granite.workflow.exec.WorkflowProcess;
 import com.adobe.granite.workflow.WorkflowException;
 import com.adobe.granite.workflow.WorkflowSession;
 import com.adobe.granite.workflow.exec.WorkItem;
+=======
+
+import com.adobe.granite.workflow.WorkflowException;
+import com.adobe.granite.workflow.WorkflowSession;
+import com.adobe.granite.workflow.exec.WorkItem;
+import com.adobe.granite.workflow.exec.WorkflowData;
+>>>>>>> f9f96e4 (Added Code)
 import com.adobe.granite.workflow.exec.WorkflowProcess;
 import com.adobe.granite.workflow.metadata.MetaDataMap;
 import org.osgi.framework.Constants;
@@ -12,6 +20,12 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
+=======
+import javax.jcr.Node;
+import javax.jcr.Session;
+
+>>>>>>> f9f96e4 (Added Code)
 @Component(service = WorkflowProcess.class,
         immediate = true,
         property = {
@@ -28,6 +42,7 @@ public class GeeksWorkflowStep1 implements WorkflowProcess {
     @Override
     public void execute(WorkItem workItem, WorkflowSession workflowSession, MetaDataMap processArguements)  {
         LOG.info("===custom work flow step====");
+<<<<<<< HEAD
     }
 }
 
@@ -35,3 +50,25 @@ public class GeeksWorkflowStep1 implements WorkflowProcess {
 
 
 
+=======
+        try{
+            WorkflowData workflowData=workItem.getWorkflowData();
+            if(workflowData.getPayloadType().equals("JCR_PATH")){
+                Session session=workflowSession.adaptTo(Session.class);
+                String path=workflowData.getPayload().toString()+"/jcr:content";
+                Node node=(Node) session.getItem(path);
+                String brand=processArguements.get("BRAND","");
+                boolean multinational=processArguements.get("MULTINATIONAL",false);
+                LOG.info("\n BRAND  : {},MULTINATIONAL : {},",brand,multinational);
+                String[] countries=processArguements.get("COUNTRIES",new String[]{});
+                for(String country:countries){
+                    LOG.info("\n Countries {}",country);
+
+                }
+            }
+        }catch (Exception e){
+            LOG.info("\n ERROR {}",e.getMessage());
+        }
+    }
+}
+>>>>>>> f9f96e4 (Added Code)
