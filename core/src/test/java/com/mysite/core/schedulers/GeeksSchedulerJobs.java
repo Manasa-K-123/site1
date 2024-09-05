@@ -1,5 +1,7 @@
 package com.mysite.core.schedulers;
 
+
+
 import com.mysite.core.config.SchedulerConfiguration;
 import org.apache.sling.commons.scheduler.Job;
 import org.apache.sling.commons.scheduler.JobContext;
@@ -45,25 +47,25 @@ public class GeeksSchedulerJobs implements Job {
     private void addSchedulerJob(SchedulerConfiguration config) {
 
         ScheduleOptions in = scheduler.EXPR("0 0/1 * 1/1 * ? *");
-        Map<String, Serializable> inMap=new HashMap<>();
-        inMap.put("country","IN");
-        inMap.put("url","www.in.com");
+        Map<String, Serializable> inMap = new HashMap<>();
+        inMap.put("country", "IN");
+        inMap.put("url", "www.in.com");
         in.config(inMap);
 
-        scheduler.schedule(this,in);
+        scheduler.schedule(this, in);
         ScheduleOptions de = scheduler.EXPR("0 0/1 * 1/1 * ? *");
-        Map<String, Serializable> deMap=new HashMap<>();
-        deMap.put("country","DE");
-        deMap.put("url","www.de.com");
+        Map<String, Serializable> deMap = new HashMap<>();
+        deMap.put("country", "DE");
+        deMap.put("url", "www.de.com");
         de.config(deMap);
-        scheduler.schedule(this,de);
+        scheduler.schedule(this, de);
 
         ScheduleOptions us = scheduler.EXPR("0 0/1 * 1/1 * ? *");
-        Map<String, Serializable> usMap=new HashMap<>();
-        usMap.put("country","US");
-        usMap.put("url","www.us.com");
+        Map<String, Serializable> usMap = new HashMap<>();
+        usMap.put("country", "US");
+        usMap.put("url", "www.us.com");
         us.config(usMap);
-        scheduler.schedule(this,us);
+        scheduler.schedule(this, us);
     }
 
     @Override
@@ -72,4 +74,5 @@ public class GeeksSchedulerJobs implements Job {
 
         LOG.info("\n =======> COUNTRY {} : URL {} ", jobContext.getConfiguration().get("country"),
                 jobContext.getConfiguration().get("url"));
-    }}
+    }
+}

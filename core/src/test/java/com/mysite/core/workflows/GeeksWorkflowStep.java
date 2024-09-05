@@ -1,4 +1,3 @@
-
 package com.mysite.core.workflows;
 
 
@@ -24,9 +23,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 @Component(service = WorkflowProcess.class,
-            immediate = true,
+        immediate = true,
         property = {
-        "process.label" +" = Geeks Workflow Process",
+                "process.label" +" = Geeks Workflow Process",
                 Constants.SERVICE_VENDOR +" =AEM GEEKS",
                 Constants.SERVICE_DESCRIPTION + " = Custom geeks workflow step"
         }
@@ -40,8 +39,8 @@ public class GeeksWorkflowStep implements WorkflowProcess {
 
     @Override
     public void execute(WorkItem workItem, WorkflowSession workflowSession, MetaDataMap processArguments)  {
-    LOG.info("===hi===");
-    Session session = null;
+        LOG.info("===hi===");
+        Session session = null;
         try {
             WorkflowData workflowData = workItem.getWorkflowData();
             if ("JCR_PATH".equals(workflowData.getPayloadType())) {
@@ -147,4 +146,3 @@ public class GeeksWorkflowStep implements WorkflowProcess {
 //
 //
 //}
-

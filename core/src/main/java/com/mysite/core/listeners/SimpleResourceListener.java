@@ -13,12 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-<<<<<<< HEAD
- 
- 
- /*     kkkkkhhhh*/
-=======
->>>>>>> f9f96e4 (Added Code)
+
 package com.mysite.core.listeners;
 
 import java.util.List;
@@ -52,8 +47,3 @@ public class SimpleResourceListener implements ResourceChangeListener {
         
     }
 }
-
-<<<<<<< HEAD
-//
-=======
->>>>>>> f9f96e4 (Added Code)
